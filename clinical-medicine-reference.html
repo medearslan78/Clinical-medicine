@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDWARSLAN — Clinical Medicine Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1F3A;
+    --navy-mid: #132D52;
+    --navy-light: #1E4080;
+    --teal: #0D9488;
+    --teal-light: #14B8A6;
+    --gold: #D4A843;
+    --white: #F8FAFC;
+    --gray: #94A3B8;
+    --gray-light: #E2E8F0;
+    --card-bg: #FFFFFF;
+    --text: #1E293B;
+    --text-soft: #475569;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.3);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: #fff; text-decoration: none;
+  }
+  .nav-brand span { color: var(--teal-light); }
+  .nav-pill {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.7);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: .8rem; font-weight: 500; letter-spacing: .04em;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: rgba(255,255,255,.65); text-decoration: none;
+    font-size: .875rem; font-weight: 500;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--teal-light); }
+
+  /* ─── HERO ────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #0D2A4F 100%);
+    padding: 80px 40px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(13,148,136,.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: 20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(212,168,67,.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(13,148,136,.2);
+    border: 1px solid rgba(13,184,166,.3);
+    color: var(--teal-light); padding: 5px 14px; border-radius: 50px;
+    font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    color: #fff; line-height: 1.15;
+    margin-bottom: 18px;
+    max-width: 680px;
+  }
+  .hero h1 em { color: var(--teal-light); font-style: normal; }
+  .hero p {
+    color: rgba(255,255,255,.6); font-size: 1.05rem;
+    max-width: 520px; line-height: 1.7; margin-bottom: 36px;
+  }
+  .hero-search {
+    display: flex; gap: 12px; max-width: 560px;
+  }
+  .hero-search input {
+    flex: 1; background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #fff; padding: 14px 20px; border-radius: 10px;
+    font-size: .95rem; font-family: 'DM Sans', sans-serif;
+    outline: none; transition: border-color .2s, background .2s;
+  }
+  .hero-search input::placeholder { color: rgba(255,255,255,.4); }
+  .hero-search input:focus {
+    border-color: var(--teal-light);
+    background: rgba(255,255,255,.15);
+  }
+  .btn-primary {
+    background: var(--teal); color: #fff;
+    border: none; padding: 14px 26px; border-radius: 10px;
+    font-size: .95rem; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .2s, transform .1s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+  .stats-row {
+    display: flex; gap: 40px; margin-top: 50px;
+  }
+  .stat { }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--teal-light); font-weight: 700;
+  }
+  .stat-label { color: rgba(255,255,255,.45); font-size: .8rem; font-weight: 500; margin-top: 2px; }
+
+  /* ─── SECTION WRAPPER ─────────────────── */
+  .section { padding: 70px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-header { margin-bottom: 40px; }
+  .section-tag {
+    font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--navy); line-height: 1.2;
+  }
+  .section-sub { color: var(--text-soft); font-size: .95rem; margin-top: 8px; }
+
+  /* ─── SPECIALTY GRID ──────────────────── */
+  .specialty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .spec-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--gray-light);
+    border-radius: 14px; padding: 28px;
+    cursor: pointer; transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .spec-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--teal);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+  .spec-card:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(13,148,136,.12); }
+  .spec-card:hover::before { transform: scaleX(1); }
+  .spec-icon { font-size: 2rem; margin-bottom: 14px; }
+  .spec-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; color: var(--navy); margin-bottom: 8px;
+  }
+  .spec-topics { color: var(--text-soft); font-size: .82rem; line-height: 1.6; }
+  .spec-count {
+    display: inline-block; margin-top: 14px;
+    background: #EFF9F8; color: var(--teal);
+    padding: 3px 10px; border-radius: 50px;
+    font-size: .75rem; font-weight: 600;
+  }
+
+  /* ─── TOPIC PANEL ─────────────────────── */
+  .topic-panel {
+    display: none;
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #fff;
+    animation: slideDown .3s ease;
+  }
+  .topic-panel.open { display: block; }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-12px) } to { opacity:1; transform:translateY(0) } }
+  .topic-panel h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: 24px;
+    color: var(--teal-light);
+  }
+  .topic-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .topic-item {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px; padding: 12px 16px;
+    font-size: .87rem; cursor: pointer;
+    transition: background .2s, border-color .2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .topic-item:hover { background: rgba(13,148,136,.2); border-color: var(--teal); }
+  .topic-item::before { content: '→'; color: var(--teal-light); font-size: .8rem; }
+  .panel-close {
+    float: right; background: rgba(255,255,255,.1);
+    border: none; color: #fff; width: 32px; height: 32px;
+    border-radius: 50%; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .panel-close:hover { background: rgba(255,255,255,.2); }
+
+  /* ─── DRUG TABLE ──────────────────────── */
+  .drug-section { background: #F8FAFC; padding: 70px 40px; }
+  .drug-inner { max-width: 1200px; margin: 0 auto; }
+  .drug-filters {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .filter-btn {
+    background: #fff; border: 1.5px solid var(--gray-light);
+    color: var(--text-soft); padding: 8px 18px; border-radius: 50px;
+    font-size: .83rem; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--navy); color: #fff; border-color: var(--navy);
+  }
+  .drug-table {
+    width: 100%; border-collapse: collapse;
+    background: #fff; border-radius: 12px;
+    overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,.07);
+  }
+  .drug-table th {
+    background: var(--navy); color: rgba(255,255,255,.8);
+    padding: 14px 18px; text-align: left;
+    font-size: .8rem; font-weight: 600; letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .drug-table td {
+    padding: 14px 18px; border-bottom: 1px solid var(--gray-light);
+    font-size: .875rem; vertical-align: top;
+  }
+  .drug-table tr:last-child td { border-bottom: none; }
+  .drug-table tr:hover td { background: #F0FDF9; }
+  .drug-name { font-weight: 600; color: var(--navy); font-family: 'DM Mono', monospace; font-size: .83rem; }
+  .dose-tag {
+    display: inline-block;
+    background: #EFF9F8; color: var(--teal);
+    padding: 2px 8px; border-radius: 4px;
+    font-size: .78rem; font-weight: 600; font-family: 'DM Mono', monospace;
+    margin: 2px;
+  }
+  .alert-tag { background: #FEF3C7; color: #92400E; }
+  .emergency-row td { border-left: 3px solid #EF4444; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+  }
+  .badge-red { background: #FEE2E2; color: #DC2626; }
+  .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+  .badge-green { background: #D1FAE5; color: #065F46; }
+  .badge-amber { background: #FEF3C7; color: #92400E; }
+
+  /* ─── DISEASE NOTES ───────────────────── */
+  .notes-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .note-card {
+    background: #fff; border-radius: 14px;
+    border: 1.5px solid var(--gray-light);
+    overflow: hidden; transition: box-shadow .25s, transform .25s;
+  }
+  .note-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,.09); transform: translateY(-2px); }
+  .note-header {
+    background: var(--navy); padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .note-title { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.1rem; }
+  .note-icon { font-size: 1.5rem; }
+  .note-body { padding: 20px 24px; }
+  .note-section { margin-bottom: 14px; }
+  .note-section-title {
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
+  }
+  .note-list { list-style: none; }
+  .note-list li {
+    padding: 4px 0; font-size: .85rem; color: var(--text-soft);
+    border-bottom: 1px solid #F1F5F9;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .note-list li::before { content: '•'; color: var(--teal); font-size: .7rem; margin-top: 5px; flex-shrink: 0; }
+  .note-card-link {
+    display: block; text-align: center; padding: 12px;
+    background: #F8FAFC; border-top: 1px solid var(--gray-light);
+    color: var(--teal); font-size: .82rem; font-weight: 600;
+    text-decoration: none; transition: background .2s;
+  }
+  .note-card-link:hover { background: #EFF9F8; }
+
+  /* ─── MCQ SECTION ─────────────────────── */
+  .mcq-section { background: var(--navy); padding: 70px 40px; }
+  .mcq-inner { max-width: 1200px; margin: 0 auto; }
+  .mcq-section .section-title { color: #fff; }
+  .mcq-section .section-tag { color: var(--gold); }
+  .mcq-section .section-sub { color: rgba(255,255,255,.5); }
+  .mcq-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px; padding: 28px 32px; margin-bottom: 20px;
+    transition: border-color .2s;
+  }
+  .mcq-card:hover { border-color: rgba(13,148,136,.4); }
+  .mcq-meta {
+    display: flex; gap: 10px; margin-bottom: 14px;
+    align-items: center;
+  }
+  .mcq-q {
+    color: #fff; font-size: 1rem; font-weight: 500; line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .mcq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mcq-opt {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px; padding: 11px 16px;
+    color: rgba(255,255,255,.7); font-size: .87rem;
+    cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .mcq-opt:hover { background: rgba(13,148,136,.15); border-color: var(--teal); }
+  .mcq-opt.correct { background: rgba(13,148,136,.2); border-color: var(--teal-light); color: var(--teal-light); }
+  .mcq-opt.wrong { background: rgba(239,68,68,.1); border-color: #EF4444; color: #FCA5A5; }
+  .mcq-opt-letter {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(255,255,255,.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; flex-shrink: 0;
+  }
+  .mcq-explain {
+    display: none; margin-top: 16px;
+    background: rgba(13,148,136,.1); border: 1px solid rgba(13,148,136,.3);
+    border-radius: 8px; padding: 14px 18px;
+    color: rgba(255,255,255,.75); font-size: .87rem; line-height: 1.6;
+  }
+  .mcq-explain.show { display: block; }
+
+  /* ─── FOOTER ──────────────────────────── */
+  footer {
+    background: #07152B; padding: 40px;
+    text-align: center; color: rgba(255,255,255,.3);
+    font-size: .82rem;
+  }
+  footer strong { color: rgba(255,255,255,.6); }
+
+  /* ─── SEARCH HIGHLIGHT ────────────────── */
+  .highlight { background: #FEF9C3; border-radius: 2px; }
+
+  /* ─── RESPONSIVE ──────────────────────── */
+  @media(max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 50px 20px 70px; }
+    .section { padding: 50px 20px; }
+    .drug-section { padding: 50px 20px; }
+    .mcq-section { padding: 50px 20px; }
+    .stats-row { gap: 24px; }
+    .mcq-options { grid-template-columns: 1fr; }
+    .hero-search { flex-direction: column; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">MEDWAR<span>SLAN</span></a>
+  <div class="nav-links">
+    <a href="#specialties">Specialties</a>
+    <a href="#drugs">Drug Doses</a>
+    <a href="#notes">Disease Notes</a>
+    <a href="#mcq">MCQ Practice</a>
+  </div>
+  <div class="nav-pill">MBBS · USMLE</div>
+</nav>
+
+<!-- ANNOUNCEMENT TICKER -->
+<div style="background: var(--teal); padding: 10px 40px; display:flex; align-items:center; gap:16px; overflow:hidden;">
+  <span style="background:white; color:var(--teal); font-size:.72rem; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; letter-spacing:.06em;">LATEST UPDATES</span>
+  <div style="overflow:hidden; flex:1;">
+    <div style="display:flex; gap:60px; animation: ticker 25s linear infinite; white-space:nowrap;">
+      <span style="color:white; font-size:.83rem; font-weight:500;">🔬 New Research Added — Latest USMLE Step 2 CK Guidelines 2025</span>
+      <span style="color:white; font-size:.83rem; font-weight:500;">💊 New Medicine Knowledge — Updated Drug Protocols & Emergency Doses</span>
+      <span style="color:white; font-size:.83rem; font-weight:500;">📚 Updated Knowledge — CLD, CKD, ACS, TB, Malaria Management Revised</span>
+      <span style="color:white; font-size:.83rem; font-weight:500;">🔬 New Research Added — Latest USMLE Step 2 CK Guidelines 2025</span>
+      <span style="color:white; font-size:.83rem; font-weight:500;">💊 New Medicine Knowledge — Updated Drug Protocols & Emergency Doses</span>
+    </div>
+  </div>
+</div>
+<style>
+@keyframes ticker { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+</style>
+
+<!-- DESCRIPTION SECTION -->
+<div style="background: linear-gradient(135deg, #0B1F3A 0%, #132D52 100%); padding: 50px 40px; border-bottom: 3px solid var(--teal);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:30px;">
+
+      <div style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:28px; border-top: 3px solid #0D9488; transition: transform .2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="font-size:2rem; margin-bottom:12px;">🔬</div>
+        <div style="font-family:'Playfair Display',serif; color:#fff; font-size:1.1rem; margin-bottom:10px;">New Researches Added</div>
+        <div style="color:rgba(255,255,255,.55); font-size:.85rem; line-height:1.7;">Stay current with the latest clinical research and evidence-based medicine. MEDWARSLAN regularly adds new findings from top journals including NEJM, Lancet, and BMJ — directly relevant to your exams and clinical practice.</div>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="background:rgba(13,148,136,.2); color:#5EEAD4; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">NEJM 2025</span>
+          <span style="background:rgba(13,148,136,.2); color:#5EEAD4; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">Lancet Guidelines</span>
+          <span style="background:rgba(13,148,136,.2); color:#5EEAD4; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">WHO Updates</span>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:28px; border-top: 3px solid #D4A843; transition: transform .2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="font-size:2rem; margin-bottom:12px;">💊</div>
+        <div style="font-family:'Playfair Display',serif; color:#fff; font-size:1.1rem; margin-bottom:10px;">New Medicine Knowledge</div>
+        <div style="color:rgba(255,255,255,.55); font-size:.85rem; line-height:1.7;">Expanding pharmacology database with new drug classes, updated dosing protocols, and drug interactions. Covers emergency drugs, antibiotics, biologics, and newly approved medications — explained in simple clinical language.</div>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="background:rgba(212,168,67,.15); color:#FCD34D; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">New Drug Classes</span>
+          <span style="background:rgba(212,168,67,.15); color:#FCD34D; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">Updated Doses</span>
+          <span style="background:rgba(212,168,67,.15); color:#FCD34D; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">Drug Interactions</span>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:28px; border-top: 3px solid #6366F1; transition: transform .2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="font-size:2rem; margin-bottom:12px;">📚</div>
+        <div style="font-family:'Playfair Display',serif; color:#fff; font-size:1.1rem; margin-bottom:10px;">Updated Knowledge</div>
+        <div style="color:rgba(255,255,255,.55); font-size:.85rem; line-height:1.7;">All disease notes, diagnostic criteria, and management protocols are continuously revised to match current USMLE Step 1 & 2, UHS Final MBBS, and FCPS Part 1 standards. No outdated information — ever.</div>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="background:rgba(99,102,241,.2); color:#A5B4FC; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">USMLE 2025</span>
+          <span style="background:rgba(99,102,241,.2); color:#A5B4FC; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">UHS Updated</span>
+          <span style="background:rgba(99,102,241,.2); color:#A5B4FC; padding:3px 10px; border-radius:50px; font-size:.72rem; font-weight:600;">FCPS Ready</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- About MEDWARSLAN -->
+    <div style="margin-top:36px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:32px; display:flex; gap:30px; align-items:center;">
+      <div style="font-size:3.5rem; flex-shrink:0;">⚕️</div>
+      <div>
+        <div style="font-family:'Playfair Display',serif; color:#fff; font-size:1.3rem; margin-bottom:10px;">About <span style="color:#14B8A6;">MEDWARSLAN</span></div>
+        <div style="color:rgba(255,255,255,.55); font-size:.9rem; line-height:1.8; max-width:750px;">
+          MEDWARSLAN is a comprehensive clinical medicine reference platform built for MBBS graduates, house officers, and medical students preparing for USMLE, UHS, and FCPS examinations. Our mission is to deliver <strong style="color:rgba(255,255,255,.8)">accurate, updated, and exam-focused</strong> medical knowledge — covering all major specialties, emergency drug doses, disease notes, and high-yield MCQs. Everything in one place, always updated, always free.
+        </div>
+        <div style="margin-top:14px; display:flex; gap:20px; flex-wrap:wrap;">
+          <span style="color:#14B8A6; font-size:.82rem; font-weight:600;">✅ 10+ Specialties</span>
+          <span style="color:#14B8A6; font-size:.82rem; font-weight:600;">✅ 30+ Emergency Drugs</span>
+          <span style="color:#14B8A6; font-size:.82rem; font-weight:600;">✅ USMLE + UHS Focused</span>
+          <span style="color:#14B8A6; font-size:.82rem; font-weight:600;">✅ Continuously Updated</span>
+          <span style="color:#14B8A6; font-size:.82rem; font-weight:600;">✅ 100% Free</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MEDWARSLAN — Clinical Medicine Reference</div>
+    <h1>Your Complete<br><em>Medical Reference</em><br>by MEDWARSLAN</h1>
+    <p>Comprehensive clinical notes, emergency drug doses, and MCQ practice for MBBS house officers preparing for USMLE.</p>
+    <div class="hero-search">
+      <input type="text" id="globalSearch" placeholder="Search diseases, drugs, topics…" oninput="handleSearch(this.value)">
+      <button class="btn-primary" onclick="handleSearch(document.getElementById('globalSearch').value)">Search</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Disease Topics</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Emergency Drugs</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">MCQs Available</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Specialties Covered</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPECIALTIES -->
+<div id="specialties" class="section">
+  <div class="section-header">
+    <div class="section-tag">Browse by Specialty</div>
+    <div class="section-title">All Medical Disciplines</div>
+    <div class="section-sub">Click any specialty to explore topics within it</div>
+  </div>
+
+  <div class="specialty-grid" id="specGrid">
+
+    <div class="spec-card" onclick="togglePanel('cardio')">
+      <div class="spec-icon">❤️</div>
+      <div class="spec-name">Cardiology</div>
+      <div class="spec-topics">ACS, CCF, Arrhythmias, Hypertension, Valvular Disease, Pericarditis</div>
+      <span class="spec-count">12 Topics</span>
+    </div>
+    <div class="topic-panel" id="cardio">
+      <button class="panel-close" onclick="togglePanel('cardio')">✕</button>
+      <h3>❤️ Cardiology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item" onclick="showNote('ACS')">Acute Coronary Syndrome</div>
+        <div class="topic-item">Congestive Cardiac Failure</div>
+        <div class="topic-item">Hypertension</div>
+        <div class="topic-item">Atrial Fibrillation</div>
+        <div class="topic-item">Complete Heart Block</div>
+        <div class="topic-item">Pericarditis / Tamponade</div>
+        <div class="topic-item">Mitral Stenosis</div>
+        <div class="topic-item">Aortic Regurgitation</div>
+        <div class="topic-item">Deep Vein Thrombosis</div>
+        <div class="topic-item">Pulmonary Embolism</div>
+        <div class="topic-item">Cardiogenic Shock</div>
+        <div class="topic-item">Infective Endocarditis</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('pulm')">
+      <div class="spec-icon">🫁</div>
+      <div class="spec-name">Pulmonology</div>
+      <div class="spec-topics">COPD, Asthma, Pneumonia, TB, Pleural Effusion, Respiratory Failure</div>
+      <span class="spec-count">10 Topics</span>
+    </div>
+    <div class="topic-panel" id="pulm">
+      <button class="panel-close" onclick="togglePanel('pulm')">✕</button>
+      <h3>🫁 Pulmonology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">COPD</div>
+        <div class="topic-item">Bronchial Asthma</div>
+        <div class="topic-item">Community-Acquired Pneumonia</div>
+        <div class="topic-item">Tuberculosis</div>
+        <div class="topic-item">Pleural Effusion</div>
+        <div class="topic-item">Pneumothorax</div>
+        <div class="topic-item">Type 1 / Type 2 Respiratory Failure</div>
+        <div class="topic-item">Bronchiectasis</div>
+        <div class="topic-item">Lung Abscess</div>
+        <div class="topic-item">ARDS</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('nephro')">
+      <div class="spec-icon">🫘</div>
+      <div class="spec-name">Nephrology</div>
+      <div class="spec-topics">CKD, AKI, Dialysis, Renal Transplant, Glomerulonephritis, Nephrotic Syndrome</div>
+      <span class="spec-count">9 Topics</span>
+    </div>
+    <div class="topic-panel" id="nephro">
+      <button class="panel-close" onclick="togglePanel('nephro')">✕</button>
+      <h3>🫘 Nephrology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Chronic Kidney Disease</div>
+        <div class="topic-item">Acute Kidney Injury</div>
+        <div class="topic-item">Dialysis Indications & Contraindications</div>
+        <div class="topic-item">Renal Transplant</div>
+        <div class="topic-item">Nephrotic Syndrome</div>
+        <div class="topic-item">Nephritic Syndrome</div>
+        <div class="topic-item">Glomerulonephritis</div>
+        <div class="topic-item">Hypertensive Nephropathy</div>
+        <div class="topic-item">Renal Tubular Acidosis</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('hepato')">
+      <div class="spec-icon">🫀</div>
+      <div class="spec-name">Hepatology / GIT</div>
+      <div class="spec-topics">CLD, Portal Hypertension, Wilson's Disease, IBD, Hepatitis, GI Bleed</div>
+      <span class="spec-count">11 Topics</span>
+    </div>
+    <div class="topic-panel" id="hepato">
+      <button class="panel-close" onclick="togglePanel('hepato')">✕</button>
+      <h3>🫀 Hepatology / GIT Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Chronic Liver Disease</div>
+        <div class="topic-item">Portal Hypertension (Cirrhotic)</div>
+        <div class="topic-item">Non-Cirrhotic Portal Hypertension</div>
+        <div class="topic-item">Wilson's Disease</div>
+        <div class="topic-item">Hepatitis B & C</div>
+        <div class="topic-item">Hepatic Encephalopathy</div>
+        <div class="topic-item">Ascites Management</div>
+        <div class="topic-item">Upper GI Bleed</div>
+        <div class="topic-item">Inflammatory Bowel Disease</div>
+        <div class="topic-item">Peptic Ulcer Disease</div>
+        <div class="topic-item">Pancreatitis</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('rheum')">
+      <div class="spec-icon">🦴</div>
+      <div class="spec-name">Rheumatology</div>
+      <div class="spec-topics">RA, SLE, Gout, Ankylosing Spondylitis, Vasculitis, Scleroderma</div>
+      <span class="spec-count">8 Topics</span>
+    </div>
+    <div class="topic-panel" id="rheum">
+      <button class="panel-close" onclick="togglePanel('rheum')">✕</button>
+      <h3>🦴 Rheumatology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Rheumatoid Arthritis</div>
+        <div class="topic-item">Systemic Lupus Erythematosus</div>
+        <div class="topic-item">Gout & Pseudogout</div>
+        <div class="topic-item">Ankylosing Spondylitis</div>
+        <div class="topic-item">Sjögren's Syndrome</div>
+        <div class="topic-item">Scleroderma / SSc</div>
+        <div class="topic-item">Vasculitis (GPA, PAN)</div>
+        <div class="topic-item">Antiphospholipid Syndrome</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('neuro')">
+      <div class="spec-icon">🧠</div>
+      <div class="spec-name">Neurology</div>
+      <div class="spec-topics">CVA, Epilepsy, Meningitis, GBS, MS, Parkinson's, Headaches</div>
+      <span class="spec-count">10 Topics</span>
+    </div>
+    <div class="topic-panel" id="neuro">
+      <button class="panel-close" onclick="togglePanel('neuro')">✕</button>
+      <h3>🧠 Neurology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Cerebrovascular Accident (CVA)</div>
+        <div class="topic-item">Epilepsy & Status Epilepticus</div>
+        <div class="topic-item">Bacterial Meningitis</div>
+        <div class="topic-item">Guillain-Barré Syndrome</div>
+        <div class="topic-item">Multiple Sclerosis</div>
+        <div class="topic-item">Parkinson's Disease</div>
+        <div class="topic-item">Myasthenia Gravis</div>
+        <div class="topic-item">Migraine & Cluster Headache</div>
+        <div class="topic-item">Subarachnoid Hemorrhage</div>
+        <div class="topic-item">Spinal Cord Compression</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('infect')">
+      <div class="spec-icon">🦠</div>
+      <div class="spec-name">Infectious Disease</div>
+      <div class="spec-topics">Malaria, Dengue, Typhoid, Sepsis, HIV, Febrile Illness, Leptospirosis</div>
+      <span class="spec-count">10 Topics</span>
+    </div>
+    <div class="topic-panel" id="infect">
+      <button class="panel-close" onclick="togglePanel('infect')">✕</button>
+      <h3>🦠 Infectious Disease Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Malaria</div>
+        <div class="topic-item">Dengue Fever</div>
+        <div class="topic-item">Typhoid (Enteric Fever)</div>
+        <div class="topic-item">Febrile Illness Approach</div>
+        <div class="topic-item">Sepsis & Septic Shock</div>
+        <div class="topic-item">HIV / AIDS</div>
+        <div class="topic-item">Leptospirosis</div>
+        <div class="topic-item">Rabies</div>
+        <div class="topic-item">Meningococcal Disease</div>
+        <div class="topic-item">Infective Endocarditis</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('endo')">
+      <div class="spec-icon">⚗️</div>
+      <div class="spec-name">Endocrinology</div>
+      <div class="spec-topics">DM, DKA, HHS, Thyroid Disorders, Adrenal, Pituitary, Calcium</div>
+      <span class="spec-count">9 Topics</span>
+    </div>
+    <div class="topic-panel" id="endo">
+      <button class="panel-close" onclick="togglePanel('endo')">✕</button>
+      <h3>⚗️ Endocrinology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Diabetes Mellitus</div>
+        <div class="topic-item">Diabetic Ketoacidosis</div>
+        <div class="topic-item">HHS (Hyperosmolar State)</div>
+        <div class="topic-item">Hypothyroidism</div>
+        <div class="topic-item">Hyperthyroidism / Thyroid Storm</div>
+        <div class="topic-item">Cushing's Syndrome</div>
+        <div class="topic-item">Addison's Disease</div>
+        <div class="topic-item">Hypercalcemia / Hypocalcemia</div>
+        <div class="topic-item">SIADH vs DI</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('haemo')">
+      <div class="spec-icon">🩸</div>
+      <div class="spec-name">Haematology</div>
+      <div class="spec-topics">Anemia, ITP, TTP, Leukemia, Lymphoma, Coagulation, Transfusion</div>
+      <span class="spec-count">9 Topics</span>
+    </div>
+    <div class="topic-panel" id="haemo">
+      <button class="panel-close" onclick="togglePanel('haemo')">✕</button>
+      <h3>🩸 Haematology Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">Iron Deficiency Anemia</div>
+        <div class="topic-item">Megaloblastic Anemia</div>
+        <div class="topic-item">Hemolytic Anemia</div>
+        <div class="topic-item">ITP & TTP</div>
+        <div class="topic-item">DIC</div>
+        <div class="topic-item">Leukemias (ALL, AML, CLL, CML)</div>
+        <div class="topic-item">Lymphoma (Hodgkin / NHL)</div>
+        <div class="topic-item">Multiple Myeloma</div>
+        <div class="topic-item">Blood Transfusion Reactions</div>
+      </div>
+    </div>
+
+    <div class="spec-card" onclick="togglePanel('emergency')">
+      <div class="spec-icon">🚨</div>
+      <div class="spec-name">Emergency Medicine</div>
+      <div class="spec-topics">Resuscitation, Shock, Anaphylaxis, Poisoning, Burns, Trauma, Codes</div>
+      <span class="spec-count">10 Topics</span>
+    </div>
+    <div class="topic-panel" id="emergency">
+      <button class="panel-close" onclick="togglePanel('emergency')">✕</button>
+      <h3>🚨 Emergency Topics</h3>
+      <div class="topic-grid">
+        <div class="topic-item">ACLS / BLS Protocols</div>
+        <div class="topic-item">Anaphylaxis</div>
+        <div class="topic-item">Hypovolemic Shock</div>
+        <div class="topic-item">Organophosphate Poisoning</div>
+        <div class="topic-item">Carbon Monoxide Poisoning</div>
+        <div class="topic-item">Acute Asthma Attack</div>
+        <div class="topic-item">Hypertensive Emergency</div>
+        <div class="topic-item">Hypoglycemia</div>
+        <div class="topic-item">Status Epilepticus</div>
+        <div class="topic-item">Acute Pulmonary Edema</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DRUG DOSES -->
+<div class="drug-section" id="drugs">
+  <div class="drug-inner">
+    <div class="section-header">
+      <div class="section-tag">Emergency Pharmacology</div>
+      <div class="section-title">Critical Drug Doses</div>
+      <div class="section-sub">Adult doses — always verify with local protocol</div>
+    </div>
+    <div class="drug-filters">
+      <button class="filter-btn active" onclick="filterDrugs('all', this)">All</button>
+      <button class="filter-btn" onclick="filterDrugs('cardiac', this)">Cardiac</button>
+      <button class="filter-btn" onclick="filterDrugs('resp', this)">Respiratory</button>
+      <button class="filter-btn" onclick="filterDrugs('neuro', this)">Neuro</button>
+      <button class="filter-btn" onclick="filterDrugs('antibiotic', this)">Antibiotics</button>
+      <button class="filter-btn" onclick="filterDrugs('gi', this)">GI / Liver</button>
+      <button class="filter-btn" onclick="filterDrugs('emergency', this)">🚨 Resus</button>
+    </div>
+    <table class="drug-table" id="drugTable">
+      <thead>
+        <tr>
+          <th>Drug</th>
+          <th>Indication</th>
+          <th>Dose & Route</th>
+          <th>Notes / Cautions</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody id="drugBody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DISEASE NOTES -->
+<div id="notes" class="section">
+  <div class="section-header">
+    <div class="section-tag">Quick Reference</div>
+    <div class="section-title">Disease Snapshot Cards</div>
+    <div class="section-sub">Key criteria, features, and management at a glance</div>
+  </div>
+  <div class="notes-grid">
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">Chronic Liver Disease (CLD)</div>
+        <div class="note-icon">🫀</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">Common Causes (ABCDE)</div>
+          <ul class="note-list">
+            <li>Alcohol — #1 in West; Hep B/C — #1 in Pakistan</li>
+            <li>NAFLD / NASH (metabolic syndrome)</li>
+            <li>Wilson's, Hemochromatosis, AIH</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Child-Pugh Score Variables</div>
+          <ul class="note-list">
+            <li>Bilirubin, Albumin, PT/INR</li>
+            <li>Ascites, Hepatic Encephalopathy</li>
+            <li>A (5-6) = Compensated; B (7-9); C (10-15) = Decompensated</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Complications (CAVE-SH)</div>
+          <ul class="note-list">
+            <li>Coagulopathy, Ascites, Varices, Encephalopathy</li>
+            <li>SBP, Hepatorenal syndrome, HCC</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">Chronic Kidney Disease (CKD)</div>
+        <div class="note-icon">🫘</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">Staging (GFR-based)</div>
+          <ul class="note-list">
+            <li>Stage 1: GFR ≥90 (with kidney damage marker)</li>
+            <li>Stage 3: GFR 30-59 | Stage 4: GFR 15-29</li>
+            <li>Stage 5: GFR &lt;15 = ESRD → Dialysis/Transplant</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Complications (ABCDE-F)</div>
+          <ul class="note-list">
+            <li>Anemia (EPO↓), Bone disease (PTH↑, Ca↓, PO4↑)</li>
+            <li>CVD, Dyslipidemia, Edema / HTN, Fluid overload</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Dialysis Indications (AEIOU)</div>
+          <ul class="note-list">
+            <li>Acidosis, Electrolytes (hyperK), Intoxication</li>
+            <li>Overload (fluid), Uremia symptoms</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">Acute Coronary Syndrome</div>
+        <div class="note-icon">❤️</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">Classification</div>
+          <ul class="note-list">
+            <li>UA: No troponin rise, transient ECG changes</li>
+            <li>NSTEMI: Troponin ↑, No ST elevation</li>
+            <li>STEMI: ST elevation + Troponin ↑ → PCI &lt;90 min</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Initial Rx (MONA-B)</div>
+          <ul class="note-list">
+            <li>Morphine, O2 (if SpO2 &lt;94%), Nitrates, Aspirin 325mg</li>
+            <li>Beta-blocker (if no contraindication)</li>
+            <li>Heparin + P2Y12 inhibitor (Clopidogrel/Ticagrelor)</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">High-Yield ECG Changes</div>
+          <ul class="note-list">
+            <li>Hyperacute T waves → ST elevation → Q waves → T inversion</li>
+            <li>Posterior MI: ST depression V1-V4 (reciprocal)</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">Rheumatoid Arthritis (RA)</div>
+        <div class="note-icon">🦴</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">ACR 2010 Criteria (Score ≥6)</div>
+          <ul class="note-list">
+            <li>Joint involvement, Serology (RF / Anti-CCP)</li>
+            <li>Acute-phase reactants (CRP/ESR), Duration ≥6 wk</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Extra-Articular Features</div>
+          <ul class="note-list">
+            <li>Rheumatoid nodules, Pulmonary fibrosis</li>
+            <li>Felty's syndrome, Scleritis, Vasculitis</li>
+            <li>Caplan's syndrome (pneumoconiosis)</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Management Pyramid</div>
+          <ul class="note-list">
+            <li>NSAIDs → Hydroxychloroquine / Sulfasalazine</li>
+            <li>Methotrexate (gold standard DMARD)</li>
+            <li>Biologics: Anti-TNF (Adalimumab, Etanercept)</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">SLE (Systemic Lupus)</div>
+        <div class="note-icon">🦋</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">SLICC Criteria (4 of 11+)</div>
+          <ul class="note-list">
+            <li>Malar rash, Photosensitivity, Oral ulcers, Alopecia</li>
+            <li>Arthritis (≥2 joints), Serositis, Renal, Neuro</li>
+            <li>Hemolytic anemia, Leukopenia, Thrombocytopenia</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Key Antibodies</div>
+          <ul class="note-list">
+            <li>ANA — most sensitive (95%); not specific</li>
+            <li>Anti-dsDNA — most specific; tracks disease activity</li>
+            <li>Anti-Sm — specific; Anti-Ro/La — Neonatal lupus</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Mx</div>
+          <ul class="note-list">
+            <li>Hydroxychloroquine — all patients</li>
+            <li>Steroids + Azathioprine / MMF for flares</li>
+            <li>Cyclophosphamide — Lupus nephritis class III/IV</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-title">Tuberculosis (TB)</div>
+        <div class="note-icon">🦠</div>
+      </div>
+      <div class="note-body">
+        <div class="note-section">
+          <div class="note-section-title">Diagnosis</div>
+          <ul class="note-list">
+            <li>Sputum AFB ×3, Culture (Gold standard), GeneXpert</li>
+            <li>TST (Mantoux) + IGRA (Quantiferon-TB)</li>
+            <li>CXR: Upper lobe cavitation, Ghon complex</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Treatment (RIPE)</div>
+          <ul class="note-list">
+            <li>2 months Intensive: Rifampicin + INH + PZA + Ethambutol</li>
+            <li>4 months Continuation: Rifampicin + INH</li>
+            <li>MDR-TB: Bedaquiline, Linezolid, Levofloxacin</li>
+          </ul>
+        </div>
+        <div class="note-section">
+          <div class="note-section-title">Side Effects (Mnemonic RIPE)</div>
+          <ul class="note-list">
+            <li>R: Hepatotoxicity, Orange urine; I: Peripheral neuropathy</li>
+            <li>P: Hyperuricemia; E: Optic neuritis</li>
+          </ul>
+        </div>
+      </div>
+      <a href="#" class="note-card-link">View Full Notes →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- MCQ PRACTICE -->
+<div class="mcq-section" id="mcq">
+  <div class="mcq-inner">
+    <div class="section-header">
+      <div class="section-tag" style="color:var(--gold)">Practice Questions</div>
+      <div class="section-title">High-Yield MCQs</div>
+      <div class="section-sub">Based on USMLE Step 1 & 2 + UHS Final MBBS style questions</div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-meta">
+        <span class="badge badge-red">Nephrology</span>
+        <span class="badge badge-blue">USMLE Step 2</span>
+      </div>
+      <div class="mcq-q">A 65-year-old diabetic patient has GFR of 18 mL/min, serum potassium 6.8 mEq/L, pH 7.18, and is oliguric with signs of fluid overload. Which is the MOST appropriate next step?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 0)"><span class="mcq-opt-letter">A</span>IV Furosemide 80 mg</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 0)"><span class="mcq-opt-letter">B</span>Restrict dietary potassium</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, true, 0)"><span class="mcq-opt-letter">C</span>Initiate emergency hemodialysis</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 0)"><span class="mcq-opt-letter">D</span>IV sodium bicarbonate infusion</div>
+      </div>
+      <div class="mcq-explain" id="explain-0">
+        ✅ <strong>C — Emergency Hemodialysis.</strong> This patient meets multiple AEIOU indications: severe Acidosis (pH 7.18), life-threatening hyperkalemia (6.8), fluid Overload unresponsive to diuretics, and Uremia. Furosemide is unlikely to work in ESRD. Dialysis is the definitive, fastest intervention.
+      </div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-meta">
+        <span class="badge badge-green">Hepatology</span>
+        <span class="badge badge-amber">High Yield</span>
+      </div>
+      <div class="mcq-q">A 45-year-old male presents with hematemesis. Endoscopy shows grade III esophageal varices with active bleeding. After initial resuscitation, which pharmacological agent should be given IMMEDIATELY?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 1)"><span class="mcq-opt-letter">A</span>Omeprazole IV infusion</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, true, 1)"><span class="mcq-opt-letter">B</span>Terlipressin (or Octreotide)</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 1)"><span class="mcq-opt-letter">C</span>Fresh Frozen Plasma</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 1)"><span class="mcq-opt-letter">D</span>Propranolol orally</div>
+      </div>
+      <div class="mcq-explain" id="explain-1">
+        ✅ <strong>B — Terlipressin / Octreotide.</strong> Vasoactive drugs reduce portal pressure and should be started as soon as variceal bleed is suspected — BEFORE endoscopy if possible. Terlipressin (or Somatostatin/Octreotide) is the drug of choice. Propranolol is for prophylaxis, not acute bleed. PPI is for peptic ulcer bleed.
+      </div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-meta">
+        <span class="badge badge-red">Rheumatology</span>
+        <span class="badge badge-blue">USMLE Step 1</span>
+      </div>
+      <div class="mcq-q">Which antibody is MOST specific for Systemic Lupus Erythematosus (SLE) and correlates with disease activity?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 2)"><span class="mcq-opt-letter">A</span>ANA (Anti-nuclear antibody)</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 2)"><span class="mcq-opt-letter">B</span>Anti-Smith (Anti-Sm)</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, true, 2)"><span class="mcq-opt-letter">C</span>Anti-dsDNA</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 2)"><span class="mcq-opt-letter">D</span>Anti-Ro (SSA)</div>
+      </div>
+      <div class="mcq-explain" id="explain-2">
+        ✅ <strong>C — Anti-dsDNA.</strong> Anti-dsDNA is highly specific for SLE AND tracks with disease activity (flares = rising titres, low complement C3/C4). Anti-Sm is specific but does NOT track activity. ANA is most sensitive (95%) but not specific. Anti-Ro causes neonatal lupus and congenital heart block.
+      </div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-meta">
+        <span class="badge badge-green">Infectious Disease</span>
+        <span class="badge badge-amber">High Yield</span>
+      </div>
+      <div class="mcq-q">A patient presents with high-grade fever, relative bradycardia (Faget's sign), rose spots on abdomen, and constipation in week 1. Widal titre is 1:160 (O antigen). What is the drug of choice?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 3)"><span class="mcq-opt-letter">A</span>Amoxicillin 500mg TDS</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 3)"><span class="mcq-opt-letter">B</span>Chloramphenicol</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, true, 3)"><span class="mcq-opt-letter">C</span>Ceftriaxone IV</div>
+        <div class="mcq-opt" onclick="answerMCQ(this, false, 3)"><span class="mcq-opt-letter">D</span>Ciprofloxacin</div>
+      </div>
+      <div class="mcq-explain" id="explain-3">
+        ✅ <strong>C — Ceftriaxone IV.</strong> This is Typhoid (Enteric Fever) caused by Salmonella typhi. Ceftriaxone is the current drug of choice for uncomplicated and complicated typhoid (especially where fluoroquinolone resistance is common in South Asia). Chloramphenicol is historical. Widal >1:160 with O-antigen is significant.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>MEDWARSLAN — Clinical Medicine Reference</strong><br>
+  Built for MBBS House Officers & USMLE Aspirants · Always verify drug doses with local protocols & current guidelines<br>
+  <span style="color:rgba(255,255,255,.2); font-size:.75rem">© MEDWARSLAN · Educational use only · Not a substitute for clinical judgment</span>
+</footer>
+
+<script>
+// ─── DRUG DATA ────────────────────────────────────────
+const drugs = [
+  // RESUS
+  { name:'Adrenaline (Epinephrine)', indication:'Cardiac Arrest (PEA/VF/VT)', dose:'1mg IV/IO q3-5min', note:'No max dose in arrest; 1:10,000 conc.', cat:'emergency' },
+  { name:'Atropine', indication:'Symptomatic Bradycardia', dose:'0.5mg IV q3-5min (max 3mg)', note:'Ineffective in high-degree AVB; use pacing', cat:'emergency' },
+  { name:'Amiodarone', indication:'VF/pulseless VT (refractory)', dose:'300mg IV bolus, then 150mg if needed', note:'Follow with 900mg/24hr infusion', cat:'emergency' },
+  { name:'Adenosine', indication:'SVT (narrow complex)', dose:'6mg rapid IV → 12mg → 12mg', note:'Flush immediately with 20mL NS; warn patient', cat:'cardiac' },
+  { name:'Adrenaline (Anaphylaxis)', indication:'Anaphylaxis', dose:'0.5mg (1:1000) IM anterolateral thigh', note:'Repeat q5-15min; IM preferred over IV', cat:'emergency' },
+
+  // CARDIAC
+  { name:'Furosemide', indication:'Acute pulmonary edema / CCF', dose:'40-80mg IV (up to 200mg in resistant)', note:'Monitor urine output; electrolytes', cat:'cardiac' },
+  { name:'GTN (Nitroglycerin)', indication:'Angina / Pulmonary edema', dose:'0.5mg SL q5min (max 3 doses) or IV infusion 10-200mcg/min', note:'Contraindicated with PDE5 inhibitors', cat:'cardiac' },
+  { name:'Metoprolol', indication:'ACS, AF rate control, HTN', dose:'25-50mg BD oral; 5mg IV q5min (max 15mg)', note:'Hold if HR<60, SBP<100, PR>0.24s', cat:'cardiac' },
+  { name:'Digoxin', indication:'AF rate control, CCF (EF<40%)', dose:'Loading: 0.5mg IV then 0.25mg q6h ×2; Maintenance: 0.125-0.25mg OD', note:'Therapeutic range 0.8-2 ng/mL; renal clearance', cat:'cardiac' },
+  { name:'Heparin (UFH)', indication:'ACS, PE, DVT', dose:'80 units/kg IV bolus, then 18 units/kg/hr', note:'Target APTT 60-100s; monitor platelets', cat:'cardiac' },
+  { name:'Streptokinase', indication:'STEMI (no PCI available)', dose:'1.5 million units in 100mL NS over 60min', note:'Contraindicated: recent surgery, stroke, bleeding', cat:'cardiac' },
+
+  // RESPIRATORY
+  { name:'Salbutamol (Albuterol)', indication:'Acute Asthma / COPD exacerbation', dose:'2.5mg nebulized q20min ×3 (severe: continuous)', note:'Tachycardia side effect; monitor K+', cat:'resp' },
+  { name:'Ipratropium Bromide', indication:'Acute severe Asthma / COPD', dose:'0.5mg nebulized q6h (combined with salbutamol)', note:'Add to salbutamol in severe exacerbation', cat:'resp' },
+  { name:'Hydrocortisone', indication:'Acute Asthma, Adrenal crisis, Anaphylaxis', dose:'200mg IV stat, then 100mg q6h', note:'Switch to oral prednisolone once stable', cat:'resp' },
+  { name:'Magnesium Sulphate', indication:'Severe/Life-threatening Asthma', dose:'2g IV over 20 minutes', note:'Bronchodilator; also for eclampsia (4g IV)', cat:'resp' },
+  { name:'Aminophylline', indication:'Severe COPD/Asthma (unresponsive)', dose:'Loading: 5mg/kg IV over 20min; Infusion: 0.5mg/kg/hr', note:'Theophylline level <20mcg/mL; arrhythmias', cat:'resp' },
+
+  // NEURO
+  { name:'Diazepam', indication:'Status Epilepticus (1st line)', dose:'10mg IV over 2min (or 10mg PR)', note:'Repeat once after 10 min; respiratory depression risk', cat:'neuro' },
+  { name:'Lorazepam', indication:'Status Epilepticus (preferred IV benzo)', dose:'4mg IV over 2min; repeat ×1 after 10min', note:'Preferred over diazepam if available', cat:'neuro' },
+  { name:'Phenytoin', indication:'Status Epilepticus (2nd line)', dose:'20mg/kg IV at max 50mg/min', note:'Monitor ECG; hypotension; avoid in AF', cat:'neuro' },
+  { name:'Alteplase (tPA)', indication:'Ischemic Stroke (&lt;4.5hrs, no contraindication)', dose:'0.9mg/kg IV (max 90mg): 10% bolus, 90% over 60min', note:'BP must be &lt;185/110 before giving', cat:'neuro' },
+  { name:'Mannitol', indication:'Raised ICP / Cerebral edema', dose:'0.25-1g/kg IV over 20-30min', note:'Monitor serum osmolality (target &lt;320); avoid in CCF/CRF', cat:'neuro' },
+
+  // ANTIBIOTICS
+  { name:'Ceftriaxone', indication:'Pneumonia, Meningitis, Typhoid, Sepsis', dose:'1-2g IV OD (Meningitis: 2g BD)', note:'Long half-life; biliary excretion; avoid Ca2+ infusions', cat:'antibiotic' },
+  { name:'Vancomycin', indication:'MRSA, Resistant Gram+ve, Meningitis', dose:'25-30mg/kg IV q12h (trough-guided dosing)', note:'Nephrotoxic + ototoxic; monitor renal function', cat:'antibiotic' },
+  { name:'Meropenem', indication:'Severe sepsis, MDR organisms', dose:'1-2g IV q8h (Meningitis: 2g q8h)', note:'Broad spectrum; covers ESBL organisms', cat:'antibiotic' },
+  { name:'Metronidazole', indication:'Anaerobic infections, C.diff, Amoeba', dose:'500mg IV/oral q8h', note:'Avoid alcohol; metallic taste; peripheral neuropathy', cat:'antibiotic' },
+  { name:'Fluconazole', indication:'Candida, Cryptococcal meningitis', dose:'200-400mg IV/oral OD (Crypto: 800mg loading)', note:'CYP2C9 inhibitor; check drug interactions', cat:'antibiotic' },
+
+  // GI/LIVER
+  { name:'Terlipressin', indication:'Variceal bleed, Hepatorenal syndrome', dose:'2mg IV q4h until bleeding stops, then 1mg q4h', note:'Reduces portal pressure; monitor for hyponatraemia', cat:'gi' },
+  { name:'Octreotide', indication:'Variceal/Peptic bleed', dose:'50mcg IV bolus, then 50mcg/hr infusion ×5 days', note:'Alternative to Terlipressin', cat:'gi' },
+  { name:'Lactulose', indication:'Hepatic encephalopathy', dose:'30-50mL oral TDS-QDS (titrate to 2-3 soft stools/day)', note:'Acidifies colon, traps NH3; monitor dehydration', cat:'gi' },
+  { name:'Rifaximin', indication:'Hepatic encephalopathy (secondary prophylaxis)', dose:'550mg oral BD', note:'Non-absorbed antibiotic; reduces NH3-producing gut bacteria', cat:'gi' },
+  { name:'Pantoprazole', indication:'Upper GI bleed (peptic ulcer)', dose:'80mg IV bolus, then 8mg/hr infusion ×72h', note:'High dose PPI reduces rebleed after endoscopy', cat:'gi' },
+];
+
+function renderDrugs(filter) {
+  const tbody = document.getElementById('drugBody');
+  const filtered = filter === 'all' ? drugs : drugs.filter(d => d.cat === filter);
+  tbody.innerHTML = filtered.map(d => `
+    <tr class="${d.cat==='emergency'?'emergency-row':''}">
+      <td><span class="drug-name">${d.name}</span></td>
+      <td style="font-size:.84rem;color:#475569">${d.indication}</td>
+      <td>${d.dose.split(';').map(s=>`<span class="dose-tag">${s.trim()}</span>`).join(' ')}</td>
+      <td style="font-size:.82rem;color:#64748B">${d.note}</td>
+      <td><span class="badge ${catBadge(d.cat)}">${d.cat.toUpperCase()}</span></td>
+    </tr>
+  `).join('');
+}
+
+function catBadge(cat) {
+  const map = { cardiac:'badge-red', resp:'badge-blue', neuro:'badge-green', antibiotic:'badge-amber', gi:'badge-blue', emergency:'badge-red' };
+  return map[cat] || 'badge-blue';
+}
+
+function filterDrugs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDrugs(cat);
+}
+
+renderDrugs('all');
+
+// ─── SPECIALTY PANELS ─────────────────────────────────
+function togglePanel(id) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('open'));
+  if (!isOpen) {
+    panel.classList.add('open');
+    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  }
+}
+
+// ─── MCQ LOGIC ────────────────────────────────────────
+function answerMCQ(el, correct, idx) {
+  const card = el.closest('.mcq-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    card.querySelectorAll('.mcq-opt').forEach(opt => {
+      if (opt.dataset.correct !== undefined || opt.getAttribute('onclick').includes('true')) {
+        opt.classList.add('correct');
+      }
+    });
+  }
+  document.getElementById('explain-' + idx).classList.add('show');
+}
+
+// ─── SEARCH ───────────────────────────────────────────
+function handleSearch(query) {
+  if (!query || query.length < 2) return;
+  const q = query.toLowerCase();
+  // scroll to matching drug if in drug table
+  const rows = document.querySelectorAll('#drugTable tbody tr');
+  rows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  if (query.length > 2) {
+    document.getElementById('drugs').scrollIntoView({ behavior: 'smooth' });
+    // reset filter buttons
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-btn').classList.add('active');
+    renderDrugs('all');
+    setTimeout(() => {
+      document.querySelectorAll('#drugTable tbody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }, 50);
+  }
+}
+</script>
+</body>
+</html>
